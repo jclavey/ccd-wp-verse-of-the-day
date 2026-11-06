@@ -1,0 +1,173 @@
+/*
+ * CCD Verse of the Day.
+ *
+ * Colours come from the Kadence theme's global palette, so the bar follows the
+ * site's colours, with the Christ Church Dunstable values as fallbacks for
+ * other themes. Override the --ccd-votd-* custom properties to change them.
+ */
+
+/* Inline text: used by the shortcode and inside the bar. Inherits the
+   surrounding font and colours so it fits wherever it is placed. */
+.ccd-votd__link {
+	font-weight: 600;
+}
+
+/* Full-width footer bar. */
+.ccd-votd-bar {
+	--ccd-votd-bar-background: var(--global-palette1, #832427);
+	--ccd-votd-bar-text: var(--global-palette9, #fff);
+	background: var(--ccd-votd-bar-background);
+	color: var(--ccd-votd-bar-text);
+	padding: 14px var(--global-content-edge-padding, 1.5rem);
+	font-family: var(--global-body-font-family, inherit);
+	line-height: 1.5;
+}
+
+.ccd-votd-bar__inner {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	max-width: var(--global-content-width, 1290px);
+	margin: 0 auto;
+}
+
+.ccd-votd-bar__icon {
+	flex: none;
+	width: 24px;
+	height: 24px;
+}
+
+.ccd-votd-bar .ccd-votd__link,
+.ccd-votd-bar .ccd-votd__link:visited {
+	color: inherit;
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 3px;
+}
+
+.ccd-votd-bar .ccd-votd__link:hover,
+.ccd-votd-bar .ccd-votd__link:focus {
+	color: inherit;
+	text-decoration-thickness: 2px;
+}
+
+.ccd-votd-bar .ccd-votd__link:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+	.ccd-votd-bar__inner {
+		justify-content: flex-start;
+	}
+}
+
+/*
+ * "Daily Bible Readings card" block pattern. Matches the home page's
+ * "Join us" card: white, rounded corners, soft shadow.
+ */
+.ccd-readings-card {
+	--ccd-readings-card-accent: var(--global-palette1, #832427);
+	--ccd-readings-card-background: var(--global-palette9, #fff);
+	--ccd-readings-card-heading: var(--global-palette3, #0f2a43);
+	--ccd-readings-card-muted: var(--global-palette6, #829ab1);
+	--ccd-readings-card-width: 1000px;
+	/* Sit above neighbouring cards so their shadows don't tint this one.
+	   The home page's "Join us" card uses z-index 100. */
+	position: relative;
+	z-index: 101;
+	box-sizing: border-box;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 16px 20px;
+	max-width: var(--ccd-readings-card-width);
+	margin-left: auto;
+	margin-right: auto;
+	padding: 22px 50px;
+	background: var(--ccd-readings-card-background);
+	border-radius: 10px;
+	box-shadow: 20px 20px 80px 0 rgba(43, 35, 34, 0.27);
+}
+
+/* Book icon in a circle. */
+.ccd-readings-card::before {
+	content: "";
+	flex: none;
+	width: 52px;
+	height: 52px;
+	border-radius: 50%;
+	background: var(--ccd-readings-card-accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 6.5C10.3 5.2 7.9 4.5 5 4.5H3v13h2c2.9 0 5.3.7 7 2 1.7-1.3 4.1-2 7-2h2v-13h-2c-2.9 0-5.3.7-7 2Z'/%3E%3Cpath d='M12 6.5v13'/%3E%3C/svg%3E") center / 26px no-repeat;
+}
+
+/* Classic themes wrap group contents in .wp-block-group__inner-container, so
+   reset margins on every level rather than direct children only. */
+.ccd-readings-card > *,
+.ccd-readings-card__text > *,
+.ccd-readings-card p {
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}
+
+.ccd-readings-card__text {
+	flex: 1 1 280px;
+	min-width: 0;
+}
+
+.ccd-readings-card .ccd-readings-card__eyebrow {
+	margin-bottom: 8px !important;
+	color: var(--ccd-readings-card-muted);
+	font-size: 15px;
+	font-weight: 600;
+	letter-spacing: 1px;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+.ccd-readings-card__readings {
+	font-size: 22px;
+	line-height: 1.3;
+}
+
+.ccd-readings-card__readings .ccd-votd__link,
+.ccd-readings-card__readings .ccd-votd__link:visited {
+	color: var(--ccd-readings-card-heading);
+	text-decoration: none;
+}
+
+.ccd-readings-card__readings .ccd-votd__link:hover,
+.ccd-readings-card__readings .ccd-votd__link:focus {
+	color: var(--ccd-readings-card-accent);
+	text-decoration: underline;
+}
+
+.ccd-readings-card__more {
+	font-weight: 500;
+}
+
+.ccd-readings-card__more:empty {
+	display: none;
+}
+
+.ccd-readings-card__more a {
+	color: var(--ccd-readings-card-accent);
+}
+
+.ccd-readings-card__more .ccd-votd-plan-link::after {
+	content: " \2192";
+}
+
+@media (max-width: 767px) {
+	.ccd-readings-card {
+		padding: 24px;
+	}
+
+	.ccd-readings-card__text {
+		flex-basis: calc(100% - 72px);
+	}
+
+	.ccd-readings-card__readings {
+		font-size: 19px;
+	}
+}
