@@ -174,3 +174,25 @@ function ccd_votd_add_settings_page() {
 		}
 	);
 }
+
+add_filter( 'plugin_action_links_' . plugin_basename( CCD_VOTD_FILE ), 'ccd_votd_plugin_action_links' );
+
+/**
+ * Adds a Settings link to the plugin's row on the Plugins screen.
+ *
+ * @param string[] $links Action links (Deactivate, etc.).
+ * @return string[]
+ */
+function ccd_votd_plugin_action_links( $links ) {
+	if ( current_user_can( 'manage_options' ) ) {
+		array_unshift(
+			$links,
+			sprintf(
+				'<a href="%s">%s</a>',
+				esc_url( admin_url( 'edit.php?post_type=' . CCD_VOTD_POST_TYPE . '&page=ccd-votd-settings' ) ),
+				esc_html__( 'Settings', 'ccd-verse-of-the-day' )
+			)
+		);
+	}
+	return $links;
+}
