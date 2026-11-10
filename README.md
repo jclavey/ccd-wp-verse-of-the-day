@@ -24,7 +24,7 @@ Importing happens in two steps. **Preview import** reads the file and lists ever
 
 Importing the same year again updates existing days rather than duplicating them, so you can fix a mistake in the spreadsheet and re-import it. You can also edit or add individual readings under **Bible Readings**.
 
-Readings are only visible in the admin and in the footer bar. They have no public URLs, and they aren't exposed through the REST API, search or feeds, so future days stay hidden.
+Readings are only visible in the admin, in the footer bar and through the [today endpoint](#rest-endpoint). They have no public URLs, and they aren't exposed through the standard REST API, search or feeds, so future days stay hidden.
 
 ## Display
 
@@ -69,10 +69,35 @@ The bar takes its colours from the Kadence theme's global palette: palette 1 (ma
 
 The shortcode text only adds bold to the link and otherwise inherits the theme's styles.
 
+### REST endpoint
+
+External services can fetch today's readings from:
+
+```
+GET https://example.org/wp-json/ccd-votd/v1/today
+```
+
+```json
+{
+  "date": "2026-01-01",
+  "references": "Psalm 1; Genesis 1; Matthew 1",
+  "url": "https://www.biblegateway.com/passage/?search=Psalm%201%3B%20Genesis%201%3B%20Matthew%201&version=NIVUK",
+  "version": "NIVUK",
+  "reading1": "Psalm 1",
+  "reading2": "Genesis 1",
+  "reading3": "Matthew 1"
+}
+```
+
+`reading1`, `reading2`, … are the passages from `references`, split on the semicolons, in order. There is one property per passage, so a day with two passages has only `reading1` and `reading2`.
+
+It needs no authentication and returns the same reading as the footer bar, from the same cache. `date` is the reading's own date, which is earlier than today if a day has no reading. When there is no reading at all it returns `404` with the code `ccd_votd_no_reading`. Only today's reading is available; future days stay hidden.
+
 ### Filters
 
 - `ccd_votd_show_footer_bar` (bool): show or hide the footer bar on a given page.
 - `ccd_votd_html` (string, array `$reading`): change the inline markup, which the shortcode and the bar both use.
+- `ccd_votd_rest_today` (array, array `$reading`): change the REST endpoint's response data.
 
 ## Licence
 

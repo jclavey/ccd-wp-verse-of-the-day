@@ -6,3 +6,6 @@ Thumbs.db
 *.zip
 # Reading plans are imported through the admin, not stored in the repo.
 *.xlsx
+
+# Local Claude Code notes and Docker test harness.
+/.claude/

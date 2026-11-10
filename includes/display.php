@@ -25,6 +25,25 @@ function ccd_votd_enqueue_style() {
 }
 
 /**
+ * Returns the BibleGateway URL for a set of references, in the translation
+ * chosen under Bible Readings > Settings.
+ *
+ * @param string $references E.g. "Psalm 1; Genesis 1; Matthew 1".
+ * @return string Unescaped URL.
+ */
+function ccd_votd_passage_url( $references ) {
+	return 'https://www.biblegateway.com/passage/?' . http_build_query(
+		array(
+			'search'  => $references,
+			'version' => ccd_votd_settings()['version'],
+		),
+		'',
+		'&',
+		PHP_QUERY_RFC3986
+	);
+}
+
+/**
  * Returns today's readings as inline markup, or an empty string if there are none.
  *
  * @param array $args {
@@ -42,15 +61,7 @@ function ccd_votd_render( $args = array() ) {
 
 	$settings = ccd_votd_settings();
 	$label    = isset( $args['label'] ) ? (string) $args['label'] : $settings['label'];
-	$url      = 'https://www.biblegateway.com/passage/?' . http_build_query(
-		array(
-			'search'  => $reading['title'],
-			'version' => $settings['version'],
-		),
-		'',
-		'&',
-		PHP_QUERY_RFC3986
-	);
+	$url      = ccd_votd_passage_url( $reading['title'] );
 
 	$html = sprintf(
 		'<span class="ccd-votd">%s<a class="ccd-votd__link" href="%s" target="_blank" rel="noopener">%s</a></span>',
